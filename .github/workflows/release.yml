@@ -31,7 +31,8 @@ jobs:
         os: [ubuntu-latest]
     steps:
       - uses: actions/checkout@v2
-      - name: [Debug] Print User Input # Will adding conditional debug = 'true'
+      # Will adding conditional debug = 'true'
+      - name: (Debug) Print User Input
         run: |
           echo "Log level: ${{ github.event.inputs.logLevel }}"
           echo "Debug Mode: ${{ github.event.inputs.debug }}"
@@ -55,7 +56,8 @@ jobs:
             @semantic-release/git
           branches: |
             ['master']
-      - name: [Debug] New Release Version # Will adding conditional debug = 'true'
+      # Will adding conditional debug = 'true'
+      - name: (Debug) Print New Release Version
         if: steps.semantic.outputs.new_release_published == 'true'
         run: |
           echo "New release version v${{ steps.semantic.outputs.new_release_version }}"
