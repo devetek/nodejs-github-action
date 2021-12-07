@@ -1,4 +1,4 @@
-name: Unit Test
+name: Continuous Integration
 
 on:
   pull_request:
@@ -25,5 +25,7 @@ jobs:
         with:
           node-version-file: '.nvmrc'
           cache: 'yarn'
-      - run: yarn install
-      - run: yarn test
+      - name: Install Dependencies
+        run: yarn install
+      - name: Test Pull Request
+        run: yarn test
