@@ -14,53 +14,14 @@ on:
     #   - '**.md'
 
 jobs:
-  node-yarn1-depencies-caching:
-    name: Test yarn 1 (Node v14.18.1, ${{ matrix.os }})
+  node-yarn-depencies-caching:
+    name: Yarn (Node v14.18.1, ${{ matrix.os }})
     runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest]
-        node-version: [12, 14, 16]
-    steps:
-      - uses: actions/checkout@v2
-      - name: Generate yarn file
-        run: yarn install
-      - name: Remove dependencies
-        shell: pwsh
-        run: Remove-Item node_modules -Force -Recurse
-      - name: Clean global cache
-        run: yarn cache clean --all
-      - name: Setup Node
-        uses: ./
-        with:
-          node-version: v14.18.1
-          cache: 'yarn'
-      - name: Install dependencies
-        run: yarn install
-
-  node-yarn2-depencies-caching:
-    name: Test yarn 2 (Node v14.18.1, ${{ matrix.os }})
-    runs-on: ${{ matrix.os }}
-    env:
-      YARN_ENABLE_IMMUTABLE_INSTALLS: false
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-latest]
     steps:
       - uses: actions/checkout@v2
-      - name: Generate yarn file
-        run: yarn install
-      - name: Remove dependencies
-        shell: pwsh
-        run: Remove-Item node_modules -Force -Recurse
-      - name: Clean global cache
-        run: yarn cache clean --all
-      - name: Setup Node
-        uses: ./
-        with:
-          node-version: v14.18.1
-          cache: 'yarn'
       - name: Install dependencies
         run: yarn install
