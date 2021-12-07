@@ -35,6 +35,7 @@ jobs:
       matrix:
         os: [ubuntu-latest]
     steps:
+      - uses: actions/checkout@v2
       - name: Print user input
         run: |
           echo "Log level: ${{ github.event.inputs.logLevel }}"
