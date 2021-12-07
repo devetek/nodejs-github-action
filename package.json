@@ -1,5 +1,8 @@
 {
   "name": "github-action",
+  "engines": {
+    "node": ">=v14.18.1"
+  },
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -9,5 +12,8 @@
   },
   "repository": "https://github.com/devetek/nodejs-github-action.git",
   "author": "Nedya Prakasa <nedya.prakasa@tokopedia.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "node-fetch": "^3.1.0"
+  }
 }
