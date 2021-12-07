@@ -1,5 +1,8 @@
 name: Build
 
+env:
+  os: 'ubuntu-latest'
+
 on:
   pull_request:
     # paths-ignore:
@@ -14,11 +17,8 @@ on:
     #   - '**.md'
 
 jobs:
-  build:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
+  install:
+    runs-on: ${{ env.os }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
@@ -26,4 +26,11 @@ jobs:
           node-version-file: '.nvmrc'
           cache: 'yarn'
       - run: yarn install
+  build:
+    needs: [install]
+    runs-on: ${{ env.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+    steps:
       - run: yarn build
