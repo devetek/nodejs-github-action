@@ -6,12 +6,12 @@ on:
       - '**.md'  
     branches:  
       - releases/*
-  # push:
-  #   branches:
-  #     - main
-  #     - releases/*
-  #   paths-ignore:
-  #     - '**.md'
+  push:
+    branches:
+      - main
+      - releases/*
+    paths-ignore:
+      - '**.md'
       
 jobs:
   build:
