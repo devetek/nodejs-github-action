@@ -1,8 +1,5 @@
 name: Build
 
-env:
-  OS_TARGET: 'ubuntu-latest'
-
 on:
   pull_request:
     # paths-ignore:
@@ -15,6 +12,9 @@ on:
       - releases/*
     # paths-ignore:
     #   - '**.md'
+
+env:
+  OS_TARGET: 'ubuntu-latest'
 
 jobs:
   install:
