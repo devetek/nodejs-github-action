@@ -25,7 +25,5 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 14.x
-      - run: yarn ci
-      - run: npm run build
-      - run: npm run format-check
-      - run: npm test
+      - run: yarn test
+      - run: yarn build
