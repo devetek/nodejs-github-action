@@ -79,5 +79,5 @@ jobs:
         with:
           context: .
           push: ${{ steps.semantic.outputs.new_release_published == 'true' }}
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:v${{ steps.semantic.outputs.new_release_major_version }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:v${{ steps.semantic.outputs.new_release_version }}
           labels: ${{ steps.meta.outputs.labels }}
