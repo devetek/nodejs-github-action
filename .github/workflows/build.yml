@@ -1,7 +1,7 @@
 name: Build
 
 env:
-  os: 'ubuntu-latest'
+  OS_TARGET: 'ubuntu-latest'
 
 on:
   pull_request:
@@ -18,7 +18,7 @@ on:
 
 jobs:
   install:
-    runs-on: ${{ env.os }}
+    runs-on: ${{ env.OS_TARGET }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
@@ -28,9 +28,6 @@ jobs:
       - run: yarn install
   build:
     needs: [install]
-    runs-on: ${{ env.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
+    runs-on: ${{ env.OS_TARGET }}
     steps:
       - run: yarn build
