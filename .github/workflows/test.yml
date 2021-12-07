@@ -1,10 +1,10 @@
-name: build-test
+name: Unit Test
 
 on:
   pull_request:
     # paths-ignore:
-    #   - '**.md'  
-    branches:  
+    #   - '**.md'
+    branches:
       - releases/*
   push:
     branches:
@@ -12,18 +12,18 @@ on:
       - releases/*
     # paths-ignore:
     #   - '**.md'
-      
+
 jobs:
   build:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [ubuntu-latest]
     steps:
       - uses: actions/checkout@v2
-      - name: Setup node 14
-        uses: actions/setup-node@v2
+      - uses: actions/setup-node@v2
         with:
-          node-version: v14.18.1
+          node-version-file: '.nvmrc'
+          cache: 'yarn'
+      - run: yarn install
       - run: yarn test
-      - run: yarn build
