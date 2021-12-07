@@ -2,16 +2,16 @@ name: build-test
 
 on:
   pull_request:
-    paths-ignore:
-      - '**.md'  
+    # paths-ignore:
+    #   - '**.md'  
     branches:  
       - releases/*
   push:
     branches:
-      - main
+      # - main
       - releases/*
-    paths-ignore:
-      - '**.md'
+    # paths-ignore:
+    #   - '**.md'
       
 jobs:
   build:
