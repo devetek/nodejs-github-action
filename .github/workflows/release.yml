@@ -35,17 +35,16 @@ jobs:
       matrix:
         os: [ubuntu-latest]
     steps:
-    - name: Print user input
-      run: |
-        echo "Log level: ${{ github.event.inputs.logLevel }}"
-        echo "Tags: ${{ github.event.inputs.tags }}" 
-        echo ${{ secrets[github.event.inputs.choice] }}
-    - name: Semantic Release
+      - name: Print user input
+        run: |
+          echo "Log level: ${{ github.event.inputs.logLevel }}"
+          echo "Tags: ${{ github.event.inputs.tags }}" 
+          echo ${{ secrets[github.event.inputs.choice] }}
+      - name: Semantic Release
         uses: cycjimmy/semantic-release-action@v2
         id: semantic
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         with:
           semantic_version: 16
           extra_plugins: |
@@ -53,7 +52,7 @@ jobs:
             @semantic-release/git
             conventional-changelog-eslint
           branches: |
-            ['main']
+            ['master']
       - name: Do something when a new release published
         # if: steps.semantic.outputs.new_release_published == 'true'
         run: |
