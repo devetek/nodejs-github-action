@@ -1,0 +1,13 @@
+{
+  "name": "github-action",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "echo 'Welcome to dev mode'",
+    "test": "echo 'Welcome to test env'",
+    "build": "echo 'Welcome to build time'"
+  },
+  "repository": "https://github.com/devetek/nodejs-github-action.git",
+  "author": "Nedya Prakasa <nedya.prakasa@tokopedia.com>",
+  "license": "MIT"
+}
