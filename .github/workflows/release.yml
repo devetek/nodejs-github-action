@@ -7,18 +7,13 @@ on:
         description: 'Log level'     
         required: true
         default: 'warning'
-      tags:
-        description: 'Test scenario tags'
-      # environment:
-      #   type: environment
-      #   description: Select the environment
-      boolean:
+      debug:
         type: boolean
-        description: True or False
-      choice:
+        description: Debug Mode
+      bucket:
         type: choice
         required: true
-        description: Make a choice
+        description: Choose bucket target
         options:
         - TOKOPEDIA_AWS
         - TOKOPEDIA_GCP
@@ -29,25 +24,26 @@ env:
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
-  printInputs:
+  release-version:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [ubuntu-latest]
     steps:
       - uses: actions/checkout@v2
-      - name: Print user input
+      - name: [Debug] Print User Input # Will adding conditional debug = 'true'
         run: |
           echo "Log level: ${{ github.event.inputs.logLevel }}"
-          echo "Tags: ${{ github.event.inputs.tags }}" 
-          echo ${{ secrets[github.event.inputs.choice] }}
+          echo "Debug Mode: ${{ github.event.inputs.debug }}"
+          echo "Bucket: ${{ github.event.inputs.bucket }}"
+          echo "Selected Bucket Secret ${{ secrets[github.event.inputs.bucket] }}"
       - uses: actions/setup-node@v2
         with:
           node-version-file: '.nvmrc'
           cache: 'yarn'
       - name: Install Dependencies
         run: yarn install
-      - name: Semantic Release
+      - name: Generating Release Version
         uses: cycjimmy/semantic-release-action@v2
         id: semantic
         env:
@@ -59,10 +55,27 @@ jobs:
             @semantic-release/git
           branches: |
             ['master']
-      - name: Do something when a new release published
-        # if: steps.semantic.outputs.new_release_published == 'true'
+      - name: [Debug] New Release Version # Will adding conditional debug = 'true'
+        if: steps.semantic.outputs.new_release_published == 'true'
         run: |
-          echo ${{ steps.semantic.outputs.new_release_version }}
-          echo ${{ steps.semantic.outputs.new_release_major_version }}
-          echo ${{ steps.semantic.outputs.new_release_minor_version }}
-          echo ${{ steps.semantic.outputs.new_release_patch_version }}
+          echo "New release version v${{ steps.semantic.outputs.new_release_version }}"
+      - name: Log into Registry ${{ env.REGISTRY }}
+        uses: docker/login-action@v1
+        if: steps.semantic.outputs.new_release_published == 'true'
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Extract Docker Metadata
+        id: meta
+        uses: docker/metadata-action@v3
+        if: steps.semantic.outputs.new_release_published == 'true'
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+      - name: Build and Publish To GitHub Docker Image Registry
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: ${{ steps.semantic.outputs.new_release_published == 'true' }}
+          tags: v${{ steps.semantic.outputs.new_release_major_version }}
+          labels: ${{ steps.meta.outputs.labels }}
