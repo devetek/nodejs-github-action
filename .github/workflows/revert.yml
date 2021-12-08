@@ -43,13 +43,11 @@ jobs:
       #     password: ${{ secrets.GITHUB_TOKEN }}
       - name: Pull and Revert To Version ${{ github.event.inputs.revert }}
         run: |
-          IMAGE_REVERT_VERSION=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:v${{ github.event.inputs.revert }}
+          IMAGE_REVERT_VERSION=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.event.inputs.revert }}
           IMAGE_LATEST_VERSION=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
 
-          docker image ls
+          echo "Revert ${{ github.event.inputs.revert }} to latest"
 
-          echo $IMAGE_REVERT_VERSION
-
-          #docker pull $IMAGE_REVERT_VERSION
-          #docker tag $IMAGE_REVERT_VERSION $IMAGE_LATEST_VERSION
-          #docker push $IMAGE_LATEST_VERSION
+          docker pull $IMAGE_REVERT_VERSION
+          docker tag $IMAGE_REVERT_VERSION $IMAGE_LATEST_VERSION
+          docker push $IMAGE_LATEST_VERSION
