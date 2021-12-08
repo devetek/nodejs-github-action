@@ -87,12 +87,12 @@ jobs:
         uses: tubone24/update_release@v1.3.1
         if: steps.semantic.outputs.new_release_published == 'true'
         env:
+          TAG_NAME: v${{ steps.semantic.outputs.new_release_version }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
         if: steps.semantic.outputs.new_release_published == 'true'
         env:
-          TAG_NAME: v${{ steps.semantic.outputs.new_release_version }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.update_release.outputs.upload_url }}
