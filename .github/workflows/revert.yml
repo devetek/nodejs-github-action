@@ -46,6 +46,8 @@ jobs:
           IMAGE_REVERT_VERSION=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:v${{ github.event.inputs.revert }}
           IMAGE_LATEST_VERSION=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
 
-          docker pull $IMAGE_REVERT_VERSION
-          docker tag $IMAGE_REVERT_VERSION $IMAGE_LATEST_VERSION
-          docker push $IMAGE_LATEST_VERSION
+          docker image ls
+
+          #docker pull $IMAGE_REVERT_VERSION
+          #docker tag $IMAGE_REVERT_VERSION $IMAGE_LATEST_VERSION
+          #docker push $IMAGE_LATEST_VERSION
