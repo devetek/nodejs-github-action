@@ -1,0 +1,48 @@
+name: Revert Version
+
+on: 
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'     
+        required: true
+        default: 'warning'
+      debug:
+        type: boolean
+        description: Debug Mode
+      revert:
+        description: 'Revert version'     
+        required: true
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  release-version:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+    steps:
+      - uses: actions/checkout@v2
+      # Will adding conditional debug = 'true'
+      - name: (Debug) Print User Input
+        run: |
+          echo "Log level: ${{ github.event.inputs.logLevel }}"
+          echo "Debug Mode: ${{ github.event.inputs.debug }}"
+          echo "Bucket: ${{ github.event.inputs.revert }}"
+      - name: Log into Registry ${{ env.REGISTRY }}
+        uses: docker/login-action@v1
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Pull and Revert To Version ${{ github.event.inputs.revert }}
+        run: |
+          IMAGE_REVERT_VERSION=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:v${{ github.event.inputs.revert }}
+          IMAGE_LATEST_VERSION=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+
+          docker pull $IMAGE_REVERT_VERSION
+          docker tag $IMAGE_REVERT_VERSION $IMAGE_LATEST_VERSION
+          docker push $IMAGE_LATEST_VERSION
