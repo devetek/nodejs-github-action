@@ -48,6 +48,8 @@ jobs:
 
           docker image ls
 
+          echo $IMAGE_REVERT_VERSION
+
           #docker pull $IMAGE_REVERT_VERSION
           #docker tag $IMAGE_REVERT_VERSION $IMAGE_LATEST_VERSION
           #docker push $IMAGE_LATEST_VERSION
