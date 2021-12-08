@@ -44,6 +44,10 @@ jobs:
           cache: 'yarn'
       - name: Install Dependencies
         run: yarn install
+      - name: Unit Test
+        run: yarn test
+      - name: Build Production
+        run: yarn build
       - name: Generating Release Version
         uses: cycjimmy/semantic-release-action@v2
         id: semantic
@@ -62,6 +66,9 @@ jobs:
         run: |
           echo "New release version v${{ steps.semantic.outputs.new_release_version }}"
           echo ${{ steps.semantic }}
+      - name: Archive Build Folder
+        if: steps.semantic.outputs.new_release_published == 'true'
+        run: tar -czvf production-browser-assets-v${{ steps.semantic.outputs.new_release_version }}.tar.gz dist/
       - name: Log into Registry ${{ env.REGISTRY }}
         uses: docker/login-action@v1
         if: steps.semantic.outputs.new_release_published == 'true'
@@ -75,17 +82,22 @@ jobs:
         if: steps.semantic.outputs.new_release_published == 'true'
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-      - name: release
-        uses: actions/create-release@v1
-        id: create_release
-        with:
-          draft: false
-          prerelease: false
-          release_name: v${{ steps.semantic.outputs.new_release_version }}
-          tag_name: v${{ steps.semantic.outputs.new_release_version }}
-          body_path: docs/CHANGELOG.md
+      - name: Get Current Relase Version
+        id: update_release
+        uses: tubone24/update_release@v1.0
+        if: steps.semantic.outputs.new_release_published == 'true'
         env:
-          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        if: steps.semantic.outputs.new_release_published == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.update_release.outputs.upload_url }}
+          asset_path: ./production-browser-assets-v${{ steps.semantic.outputs.new_release_version }}.tar.gz
+          asset_name: production-browser-assets-v${{ steps.semantic.outputs.new_release_version }}.tar.gz
+          asset_content_type: application/zip
       - name: Build and Publish To GitHub Docker Image Registry
         uses: docker/build-push-action@v2
         if: steps.semantic.outputs.new_release_published == 'true'
