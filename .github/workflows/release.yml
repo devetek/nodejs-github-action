@@ -66,7 +66,10 @@ jobs:
       - name: (Debug) Print New Release Version
         if: steps.semantic.outputs.new_release_published == 'true'
         run: |
+          echo "Previous release version v${{ steps.semantic.outputs.last_release_version }}"
           echo "New release version v${{ steps.semantic.outputs.new_release_version }}"
+          echo "New release Channel ${{ steps.semantic.outputs.new_release_channel }}"
+          echo "New release Notes ${{ steps.semantic.outputs.new_release_notes }}"
       - name: Archive Build Folder
         if: steps.semantic.outputs.new_release_published == 'true'
         run: tar -czvf production-browser-assets-v${{ steps.semantic.outputs.new_release_version }}.tar.gz dist/
@@ -83,12 +86,17 @@ jobs:
         if: steps.semantic.outputs.new_release_published == 'true'
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-      - name: Get Current Relase Version
-        id: update_release
-        uses: tubone24/update_release@v1.3.1
+      - name: Release Version v${{ steps.semantic.outputs.new_release_version }}
+        uses: actions/create-release@v1
         if: steps.semantic.outputs.new_release_published == 'true'
+        id: create_release
+        with:
+          draft: false
+          prerelease: false
+          release_name: v${{ steps.semantic.outputs.new_release_version }}
+          tag_name: v${{ steps.semantic.outputs.new_release_version }}
+          body_path: docs/CHANGELOG.md
         env:
-          TAG_NAME: v${{ steps.semantic.outputs.new_release_version }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
@@ -96,7 +104,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.update_release.outputs.upload_url }}
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./production-browser-assets-v${{ steps.semantic.outputs.new_release_version }}.tar.gz
           asset_name: production-browser-assets-v${{ steps.semantic.outputs.new_release_version }}.tar.gz
           asset_content_type: application/zip
