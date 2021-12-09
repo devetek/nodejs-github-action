@@ -29,6 +29,8 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
+    outputs:
+      version: v${{ steps.semantic.outputs.new_release_version }}
     steps:
       - uses: actions/checkout@v2
       # Will adding conditional debug = 'true'
@@ -65,7 +67,6 @@ jobs:
         if: steps.semantic.outputs.new_release_published == 'true'
         run: |
           echo "New release version v${{ steps.semantic.outputs.new_release_version }}"
-          echo ${{ steps.semantic }}
       - name: Archive Build Folder
         if: steps.semantic.outputs.new_release_published == 'true'
         run: tar -czvf production-browser-assets-v${{ steps.semantic.outputs.new_release_version }}.tar.gz dist/
@@ -110,3 +111,6 @@ jobs:
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:v${{ steps.semantic.outputs.new_release_version }}
           # tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:v${{ steps.semantic.outputs.new_release_version }}
           labels: ${{ steps.meta.outputs.labels }}
+  
+  # upload-artifacts:
+  #   needs: [release-version]
