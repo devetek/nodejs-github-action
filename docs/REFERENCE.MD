@@ -7,4 +7,4 @@ References
 - [Release With Artifacts](https://trstringer.com/github-actions-create-release-upload-artifacts/)
 - [Create Release](https://github.com/marketplace/actions/create-release)
 - [e2e Test](https://medium.com/tomorrowapp/running-end-to-end-tests-with-github-actions-d45b70c032e6)
-
+- [Software release life cycle](https://en.wikipedia.org/wiki/Software_release_life_cycle)
