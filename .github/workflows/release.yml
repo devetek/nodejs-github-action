@@ -59,6 +59,7 @@ jobs:
           semantic_version: 16
           extra_plugins: |
             @semantic-release/changelog
+            @semantic-release/npm
             @semantic-release/git
           branches: |
             ['master']
