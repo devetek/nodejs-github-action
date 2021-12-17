@@ -1,3 +1,15 @@
+# [3.0.0](https://github.com/devetek/nodejs-github-action/compare/v2.2.0...v3.0.0) (2021-12-17)
+
+
+### Features
+
+* release package.json version ([#21](https://github.com/devetek/nodejs-github-action/issues/21)) ([a9298c1](https://github.com/devetek/nodejs-github-action/commit/a9298c1350f4d2010f937ecbde438678587fe096))
+
+
+### BREAKING CHANGES
+
+* it will force update package.json, be careful to running this workflows
+
 # [2.2.0](https://github.com/devetek/nodejs-github-action/compare/v2.1.0...v2.2.0) (2021-12-09)
 
 
