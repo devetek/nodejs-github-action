@@ -1,0 +1,122 @@
+name: Release Version
+
+on: 
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'     
+        required: true
+        default: 'warning'
+      debug:
+        type: boolean
+        description: Debug Mode
+      bucket:
+        type: choice
+        required: true
+        description: Choose bucket target
+        options:
+        - TOKOPEDIA_AWS
+        - TOKOPEDIA_GCP
+        - GOJEK_GCP
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  release-version:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+    outputs:
+      version: v${{ steps.semantic.outputs.new_release_version }}
+    steps:
+      - uses: actions/checkout@v2
+      # Will adding conditional debug = 'true'
+      - name: (Debug) Print User Input
+        run: |
+          echo "Log level: ${{ github.event.inputs.logLevel }}"
+          echo "Debug Mode: ${{ github.event.inputs.debug }}"
+          echo "Bucket: ${{ github.event.inputs.bucket }}"
+          echo "Selected Bucket Secret ${{ secrets[github.event.inputs.bucket] }}"
+      - uses: actions/setup-node@v2
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'yarn'
+      - name: Install Dependencies
+        run: yarn install
+      - name: Unit Test
+        run: yarn test
+      - name: Build Production
+        run: yarn build
+      - name: Generating Release Version
+        uses: cycjimmy/semantic-release-action@v2
+        id: semantic
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          semantic_version: 16
+          extra_plugins: |
+            @semantic-release/changelog
+            @semantic-release/npm
+            @semantic-release/git
+          branches: |
+            ['master']
+      # Will adding conditional debug = 'true'
+      - name: (Debug) Print New Release Version
+        if: steps.semantic.outputs.new_release_published == 'true'
+        run: |
+          echo "Previous release version v${{ steps.semantic.outputs.last_release_version }}"
+          echo "New release version v${{ steps.semantic.outputs.new_release_version }}"
+          echo "New release Channel ${{ steps.semantic.outputs.new_release_channel }}"
+          echo "New release Notes ${{ steps.semantic.outputs.new_release_notes }}"
+      - name: Archive Build Folder
+        if: steps.semantic.outputs.new_release_published == 'true'
+        run: tar -czvf production-browser-assets-v${{ steps.semantic.outputs.new_release_version }}.tar.gz dist/
+      - name: Log into Registry ${{ env.REGISTRY }}
+        uses: docker/login-action@v1
+        if: steps.semantic.outputs.new_release_published == 'true'
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Extract Docker Metadata
+        id: meta
+        uses: docker/metadata-action@v3
+        if: steps.semantic.outputs.new_release_published == 'true'
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+      - name: Release Version v${{ steps.semantic.outputs.new_release_version }}
+        uses: actions/create-release@v1
+        if: steps.semantic.outputs.new_release_published == 'true'
+        id: create_release
+        with:
+          draft: false
+          prerelease: false
+          release_name: v${{ steps.semantic.outputs.new_release_version }}
+          tag_name: v${{ steps.semantic.outputs.new_release_version }}
+          body_path: docs/CHANGELOG.md
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        if: steps.semantic.outputs.new_release_published == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./production-browser-assets-v${{ steps.semantic.outputs.new_release_version }}.tar.gz
+          asset_name: production-browser-assets-v${{ steps.semantic.outputs.new_release_version }}.tar.gz
+          asset_content_type: application/zip
+      - name: Build and Publish To GitHub Docker Image Registry
+        uses: docker/build-push-action@v2
+        if: steps.semantic.outputs.new_release_published == 'true'
+        with:
+          context: .
+          push: ${{ steps.semantic.outputs.new_release_published == 'true' }}
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:v${{ steps.semantic.outputs.new_release_version }}
+          # tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:v${{ steps.semantic.outputs.new_release_version }}
+          labels: ${{ steps.meta.outputs.labels }}
