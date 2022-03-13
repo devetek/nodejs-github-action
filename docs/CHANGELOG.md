@@ -1,3 +1,15 @@
+# [2.0.0-beta.2](https://github.com/devetek/nodejs-github-action/compare/v2.0.0-beta.1...v2.0.0-beta.2) (2022-03-13)
+
+
+### Features
+
+* avanger in weekend ([1e59ac8](https://github.com/devetek/nodejs-github-action/commit/1e59ac813b5d00e9c5e59b560cdff743a145571d))
+
+
+### BREAKING CHANGES
+
+* avanger will breaking anything
+
 # [2.0.0-beta.1](https://github.com/devetek/nodejs-github-action/compare/v1.3.0-beta.1...v2.0.0-beta.1) (2022-03-13)
 
 
