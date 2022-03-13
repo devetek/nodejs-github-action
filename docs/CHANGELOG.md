@@ -5,6 +5,15 @@
 
 * adjie lagi nih ([107b443](https://github.com/devetek/nodejs-github-action/commit/107b4437ba483a3f7213fb896cdbc7a659bc968e))
 * adjie was here ([23f41ce](https://github.com/devetek/nodejs-github-action/commit/23f41ce02c21fc2d0e8c2bfa26c89bcd59150767))
+* upadte index.js ([ac44203](https://github.com/devetek/nodejs-github-action/commit/ac442036039e6c37960be0b5c0e32e1c01e90214))
+
+# [1.3.0](https://github.com/devetek/nodejs-github-action/compare/v1.2.0...v1.3.0) (2022-03-13)
+
+
+### Features
+
+* adjie lagi nih ([107b443](https://github.com/devetek/nodejs-github-action/commit/107b4437ba483a3f7213fb896cdbc7a659bc968e))
+* adjie was here ([23f41ce](https://github.com/devetek/nodejs-github-action/commit/23f41ce02c21fc2d0e8c2bfa26c89bcd59150767))
 
 # [1.2.0](https://github.com/devetek/nodejs-github-action/compare/v1.1.0...v1.2.0) (2022-03-13)
 
