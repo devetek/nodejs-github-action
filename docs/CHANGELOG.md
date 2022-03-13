@@ -1,3 +1,15 @@
+# [2.0.0-beta.1](https://github.com/devetek/nodejs-github-action/compare/v1.3.0-beta.1...v2.0.0-beta.1) (2022-03-13)
+
+
+### Features
+
+* beta breaking change ([72c7b29](https://github.com/devetek/nodejs-github-action/commit/72c7b29da5ac39e354e2aeecdde5fa7ecc427846))
+
+
+### BREAKING CHANGES
+
+* breaking anything in beta without not sync to master
+
 # [1.3.0-beta.1](https://github.com/devetek/nodejs-github-action/compare/v1.2.0...v1.3.0-beta.1) (2022-03-13)
 
 
