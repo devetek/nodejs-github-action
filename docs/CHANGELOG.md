@@ -1,3 +1,15 @@
+# [2.0.0-beta.4](https://github.com/devetek/nodejs-github-action/compare/v2.0.0-beta.3...v2.0.0-beta.4) (2022-03-13)
+
+
+### Performance Improvements
+
+* perf improvement is only ilution ([c473760](https://github.com/devetek/nodejs-github-action/commit/c4737602125e6210c5cae85c90dbf5ce8d2a6292))
+
+
+### BREAKING CHANGES
+
+* adjie said that this version must be breaking anything in beta.
+
 # [2.0.0-beta.3](https://github.com/devetek/nodejs-github-action/compare/v2.0.0-beta.2...v2.0.0-beta.3) (2022-03-13)
 
 
