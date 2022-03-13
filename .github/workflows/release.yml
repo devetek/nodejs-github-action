@@ -61,8 +61,6 @@ jobs:
             @semantic-release/changelog
             @semantic-release/npm
             @semantic-release/git
-          branches: |
-            ['master']
       # Will adding conditional debug = 'true'
       - name: (Debug) Print New Release Version
         if: steps.semantic.outputs.new_release_published == 'true'
