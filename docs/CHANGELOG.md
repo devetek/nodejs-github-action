@@ -1,3 +1,15 @@
+# [2.0.0-beta.3](https://github.com/devetek/nodejs-github-action/compare/v2.0.0-beta.2...v2.0.0-beta.3) (2022-03-13)
+
+
+### Features
+
+* release beta v3 ([55cf5c2](https://github.com/devetek/nodejs-github-action/commit/55cf5c2b35dd50edb3e477dd282bc42bd517a175))
+
+
+### BREAKING CHANGES
+
+* id love to break anything
+
 # [2.0.0-beta.2](https://github.com/devetek/nodejs-github-action/compare/v2.0.0-beta.1...v2.0.0-beta.2) (2022-03-13)
 
 
