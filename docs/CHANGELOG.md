@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/devetek/nodejs-github-action/compare/v1.3.0...v1.4.0) (2022-03-13)
+
+
+### Features
+
+* let make it works ([4097e4a](https://github.com/devetek/nodejs-github-action/commit/4097e4a2f75ec62a7aa68c8960c2679faacf5af1))
+
 # [1.3.0](https://github.com/devetek/nodejs-github-action/compare/v1.2.0...v1.3.0) (2022-03-13)
 
 
