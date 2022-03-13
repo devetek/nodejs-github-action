@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/devetek/nodejs-github-action/compare/v1.1.0...v1.2.0) (2022-03-13)
+
+
+### Features
+
+* fix changelog ([47dbd8e](https://github.com/devetek/nodejs-github-action/commit/47dbd8e43d2104f15ac844bfed74806bd4516184))
+
 # [1.1.0](https://github.com/devetek/nodejs-github-action/compare/v1.0.0...v1.1.0) (2022-03-13)
 
 
