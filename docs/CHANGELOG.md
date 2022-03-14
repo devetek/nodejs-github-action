@@ -1,3 +1,10 @@
+# [2.0.0-beta.5](https://github.com/devetek/nodejs-github-action/compare/v2.0.0-beta.4...v2.0.0-beta.5) (2022-03-14)
+
+
+### Features
+
+* increment beta ([f07a6f3](https://github.com/devetek/nodejs-github-action/commit/f07a6f3207555f6d4abfaaffee3cc5850669093e))
+
 # [2.0.0-beta.4](https://github.com/devetek/nodejs-github-action/compare/v2.0.0-beta.3...v2.0.0-beta.4) (2022-03-13)
 
 
