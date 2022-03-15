@@ -3,6 +3,25 @@
 
 ### Performance Improvements
 
+* **main.js:** breaking main feature ([#23](https://github.com/devetek/nodejs-github-action/issues/23)) ([923161f](https://github.com/devetek/nodejs-github-action/commit/923161f8fdfb332fc177d90b0ea2a79b94045524))
+* no perd improvement ([e19f19a](https://github.com/devetek/nodejs-github-action/commit/e19f19a5f2428b6a21e59862d4f97b7230dbf86a))
+
+
+### Reverts
+
+* revert failed on release ([3b0ad61](https://github.com/devetek/nodejs-github-action/commit/3b0ad61a964295fee1718dde6ed426f96343dd2a))
+
+
+### BREAKING CHANGES
+
+* **main.js:** breaking main page
+* The graphiteWidth option has been removed.
+
+# [2.0.0](https://github.com/devetek/nodejs-github-action/compare/v1.4.0...v2.0.0) (2022-03-15)
+
+
+### Performance Improvements
+
 * no perd improvement ([e19f19a](https://github.com/devetek/nodejs-github-action/commit/e19f19a5f2428b6a21e59862d4f97b7230dbf86a))
 
 
