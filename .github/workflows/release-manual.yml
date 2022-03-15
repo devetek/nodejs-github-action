@@ -75,6 +75,8 @@ jobs:
           prerelease: false
           release_name: v${{ github.event.inputs.version }}
           tag_name: v${{ github.event.inputs.version }}
+          body: |
+            Manual Release v${{ github.event.inputs.version }}
           # body_path: docs/CHANGELOG.md
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
