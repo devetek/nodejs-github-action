@@ -1,3 +1,51 @@
+# [4.0.0](https://github.com/devetek/nodejs-github-action/compare/v3.0.0...v4.0.0) (2022-03-13)
+
+
+### Features
+
+* no new feature update but need to push it ([df5d17e](https://github.com/devetek/nodejs-github-action/commit/df5d17eec2f6443b38d4ce7a265fd68b6087958f))
+
+
+### BREAKING CHANGES
+
+* Anything for breaking the rules.
+
+# [3.0.0](https://github.com/devetek/nodejs-github-action/compare/v2.0.0...v3.0.0) (2022-03-13)
+
+
+### Performance Improvements
+
+* no perf improvement ([9e9946e](https://github.com/devetek/nodejs-github-action/commit/9e9946e5f242dfbabe9f29682ed16d69d82a81ed))
+
+
+### BREAKING CHANGES
+
+* The graphiteWidth option has been removed.
+
+# [2.0.0](https://github.com/devetek/nodejs-github-action/compare/v1.4.0...v2.0.0) (2022-03-13)
+
+
+### Performance Improvements
+
+* no perd improvement ([e19f19a](https://github.com/devetek/nodejs-github-action/commit/e19f19a5f2428b6a21e59862d4f97b7230dbf86a))
+
+
+### BREAKING CHANGES
+
+* The graphiteWidth option has been removed.
+
+# [2.0.0](https://github.com/devetek/nodejs-github-action/compare/v1.4.0...v2.0.0) (2022-03-13)
+
+
+### Performance Improvements
+
+* no perd improvement ([e19f19a](https://github.com/devetek/nodejs-github-action/commit/e19f19a5f2428b6a21e59862d4f97b7230dbf86a))
+
+
+### BREAKING CHANGES
+
+* The graphiteWidth option has been removed.
+
 # [1.4.0](https://github.com/devetek/nodejs-github-action/compare/v1.3.0...v1.4.0) (2022-03-13)
 
 
