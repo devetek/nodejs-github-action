@@ -61,6 +61,12 @@ jobs:
           NODE_ENV: production
       - name: Archive Build Folder
         run: tar -czvf production-browser-assets-v${{ github.event.inputs.version }}.tar.gz dist/
+      - name: Log into Registry ${{ env.REGISTRY }}
+        uses: docker/login-action@v1
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
       - name: Release Version v${{ github.event.inputs.version }}
         uses: actions/create-release@v1
         id: create_release
