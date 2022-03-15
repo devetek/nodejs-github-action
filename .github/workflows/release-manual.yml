@@ -25,7 +25,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: tokopedia-goto/gotocompany-web
+  IMAGE_NAME: ${{ github.repository }}
 
 jobs:
   release-version:
