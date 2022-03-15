@@ -1,0 +1,88 @@
+name: Manual Release Version
+
+on: 
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version'     
+        required: true
+        default: ''
+      logLevel:
+        description: 'Log level'     
+        required: true
+        default: 'warning'
+      debug:
+        type: boolean
+        description: Debug Mode
+      bucket:
+        type: choice
+        required: true
+        description: Choose bucket target
+        options:
+        - TOKOPEDIA_AWS
+        - TOKOPEDIA_GCP
+        - GOJEK_GCP
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: tokopedia-goto/gotocompany-web
+
+jobs:
+  release-version:
+    runs-on:
+      - gotocompany-web-gh-action-runner
+    steps:
+      - uses: actions/checkout@v2
+      # Will adding conditional debug = 'true'
+      - name: (Debug) Print User Input
+        if: inputs.debug == 'true'
+        run: |
+          git status
+          git remote -v
+          echo "Log level: ${{ github.event.inputs.logLevel }}"
+          echo "Debug Mode: ${{ github.event.inputs.debug }}"
+          echo "Bucket: ${{ github.event.inputs.bucket }}"
+          echo "Selected Bucket Secret ${{ secrets[github.event.inputs.bucket] }}"
+      - uses: actions/setup-node@v2
+        with:
+          node-version-file: '.nvmrc'
+          # cache: 'yarn'
+      - name: Install Yarn Globally
+        run: npm install --global yarn
+      - name: Install Dependencies
+        run: yarn install
+      - name: Unit Test
+        run: yarn test
+      - name: Build Production
+        run: yarn build && yarn install --production --ignore-scripts --prefer-offline
+        env:
+          NODE_ENV: production
+      - name: Release Version v${{ inputs.version }}
+        uses: actions/create-release@v1
+        id: create_release
+        with:
+          draft: false
+          prerelease: false
+          release_name: v${{ inputs.version }}
+          tag_name: v${{ inputs.version }}
+          # body_path: docs/CHANGELOG.md
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./production-browser-assets-v${{ inputs.version }}.tar.gz
+          asset_name: production-browser-assets-v${{ inputs.version }}.tar.gz
+          asset_content_type: application/zip
+      - name: Build and Publish To GitHub Docker Image Registry
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:v${{ steps.semantic.outputs.new_release_version }}
+          # tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:v${{ steps.semantic.outputs.new_release_version }}
+          # labels: ${{ steps.meta.outputs.labels }}
