@@ -29,8 +29,10 @@ env:
 
 jobs:
   release-version:
-    runs-on:
-      - gotocompany-web-gh-action-runner
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
     steps:
       - uses: actions/checkout@v2
       # Will adding conditional debug = 'true'
