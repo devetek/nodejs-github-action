@@ -1,3 +1,15 @@
+# [2.0.0](https://github.com/devetek/nodejs-github-action/compare/v1.4.0...v2.0.0) (2022-03-15)
+
+
+### Performance Improvements
+
+* no perd improvement ([e19f19a](https://github.com/devetek/nodejs-github-action/commit/e19f19a5f2428b6a21e59862d4f97b7230dbf86a))
+
+
+### BREAKING CHANGES
+
+* The graphiteWidth option has been removed.
+
 # [4.0.0](https://github.com/devetek/nodejs-github-action/compare/v3.0.0...v4.0.0) (2022-03-13)
 
 
