@@ -59,14 +59,14 @@ jobs:
         run: yarn build && yarn install --production --ignore-scripts --prefer-offline
         env:
           NODE_ENV: production
-      - name: Release Version v${{ inputs.version }}
+      - name: Release Version v${{ github.event.inputs.version }}
         uses: actions/create-release@v1
         id: create_release
         with:
           draft: false
           prerelease: false
-          release_name: v${{ inputs.version }}
-          tag_name: v${{ inputs.version }}
+          release_name: v${{ github.event.inputs.version }}
+          tag_name: v${{ github.event.inputs.version }}
           # body_path: docs/CHANGELOG.md
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -76,8 +76,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./production-browser-assets-v${{ inputs.version }}.tar.gz
-          asset_name: production-browser-assets-v${{ inputs.version }}.tar.gz
+          asset_path: ./production-browser-assets-v${{ github.event.inputs.version }}.tar.gz
+          asset_name: production-browser-assets-v${{ github.event.inputs.version }}.tar.gz
           asset_content_type: application/zip
       - name: Build and Publish To GitHub Docker Image Registry
         uses: docker/build-push-action@v2
@@ -85,4 +85,4 @@ jobs:
           context: .
           tags: |
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:v${{ inputs.version }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:v${{ github.event.inputs.version }}
